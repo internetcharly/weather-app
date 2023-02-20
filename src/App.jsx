@@ -1,18 +1,28 @@
-import { info } from 'autoprefixer'
+/* eslint-disable no-useless-return */
 import './App.css'
 import { WeatherCard } from './components/WeatherCard'
 import { API_KEY } from './data'
+import { useSearch } from './hooks/useSearch'
 import { useWeatherInfo } from './hooks/useWeatherInfo'
 
 const BASE_URL = 'http://api.weatherapi.com/v1'
 
 function App() {
 	const { infoWeather } = useWeatherInfo()
+	const { search, updateSearch, error } = useSearch()
+
+	const handleSubmit = (event) => {
+		event.preventDefault()
+	}
+
+	const handleChange = (event) => {
+		updateSearch(event.target.value)
+	}
 
 	return (
-		<div>
+		<div className='dark:bg-gray-500'>
 			<header>
-				<form>
+				<form onSubmit={handleSubmit}>
 					<label
 						htmlFor='search'
 						className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'
@@ -38,6 +48,8 @@ function App() {
 							</svg>
 						</div>
 						<input
+							onChange={handleChange}
+							value={search}
 							type='search'
 							id='search'
 							className='block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
@@ -51,6 +63,7 @@ function App() {
 						</button>
 					</div>
 				</form>
+				{error && <p>{error}</p>}
 			</header>
 
 			<main className='flex justify-center'>
