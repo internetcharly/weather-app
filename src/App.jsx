@@ -5,14 +5,13 @@ import { API_KEY } from './data'
 import { useSearch } from './hooks/useSearch'
 import { useWeatherInfo } from './hooks/useWeatherInfo'
 
-const BASE_URL = 'http://api.weatherapi.com/v1'
-
 function App() {
-	const { infoWeather } = useWeatherInfo()
 	const { search, updateSearch, error } = useSearch()
+	const { infoWeather, getWeatherInfo } = useWeatherInfo({ search })
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
+		getWeatherInfo()
 	}
 
 	const handleChange = (event) => {
@@ -66,9 +65,9 @@ function App() {
 				{error && <p>{error}</p>}
 			</header>
 
-			<main className='flex justify-center'>
+			<div className='flex flex-col items-center justify-center w-screen min-h-screen text-gray-700 p-10 bg-gradient-to-br from-pink-200 via-purple-200 to-indigo-200 '>
 				<WeatherCard infoWeather={infoWeather} />
-			</main>
+			</div>
 		</div>
 	)
 }
