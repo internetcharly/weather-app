@@ -1,13 +1,12 @@
 /* eslint-disable no-useless-return */
 import './App.css'
 import { WeatherCard } from './components/WeatherCard'
-import { API_KEY } from './data'
 import { useSearch } from './hooks/useSearch'
 import { useWeatherInfo } from './hooks/useWeatherInfo'
 
 function App() {
 	const { search, updateSearch, error } = useSearch()
-	const { infoWeather, getWeatherInfo } = useWeatherInfo({ search })
+	const { infoWeather, getWeatherInfo, loading } = useWeatherInfo({ search })
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
@@ -66,7 +65,11 @@ function App() {
 			</header>
 
 			<div className='flex flex-col items-center justify-center w-screen min-h-screen text-gray-700 p-10 bg-gradient-to-br from-pink-200 via-purple-200 to-indigo-200 '>
-				<WeatherCard infoWeather={infoWeather} />
+				{loading ? (
+					<p>Loading...</p>
+				) : (
+					<WeatherCard infoWeather={infoWeather} />
+				)}
 			</div>
 		</div>
 	)
