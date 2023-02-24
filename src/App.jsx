@@ -14,7 +14,9 @@ function App() {
 	}
 
 	const handleChange = (event) => {
-		updateSearch(event.target.value)
+		const newSearch = event.target.value
+		updateSearch(newSearch)
+		getWeatherInfo({ search: newSearch })
 	}
 
 	return (

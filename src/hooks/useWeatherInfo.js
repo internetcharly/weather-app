@@ -1,5 +1,4 @@
-/* eslint-disable dot-notation */
-import { useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { searchWeather } from '../data/weatherInfo'
 
 export function useWeatherInfo({ search }) {
@@ -8,9 +7,10 @@ export function useWeatherInfo({ search }) {
 	const [error, setError] = useState(null)
 	const previousSearch = useRef(search)
 
-	const getWeatherInfo = async () => {
+	const getWeatherInfo = useCallback(async () => {
 		if (search === previousSearch.current) return
 		try {
+			console.log('Entrando')
 			setLoading(true)
 			setError(null)
 			previousSearch.current = search
@@ -21,7 +21,7 @@ export function useWeatherInfo({ search }) {
 		} finally {
 			setLoading(false)
 		}
-	}
+	}, [search])
 
 	return { infoWeather, getWeatherInfo, loading }
 }
