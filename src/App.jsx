@@ -1,12 +1,15 @@
 /* eslint-disable no-useless-return */
 import './App.css'
+import { LocationList } from './components/LocationList'
 import { WeatherCard } from './components/WeatherCard'
 import { useSearch } from './hooks/useSearch'
 import { useWeatherInfo } from './hooks/useWeatherInfo'
 
 function App() {
 	const { search, updateSearch, error } = useSearch()
-	const { infoWeather, getWeatherInfo, loading } = useWeatherInfo({ search })
+	const { infoWeather, getWeatherInfo, locations, loading } = useWeatherInfo({
+		search,
+	})
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
@@ -63,6 +66,11 @@ function App() {
 						</button>
 					</div>
 				</form>
+				{loading ? (
+					<p>Loading...</p>
+				) : (
+					<LocationList locations={locations} search={search} />
+				)}
 				{error && <p>{error}</p>}
 			</header>
 
